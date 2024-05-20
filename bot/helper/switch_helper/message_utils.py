@@ -1,12 +1,13 @@
 from time import time
 from asyncio import sleep
 
-from bot import config_dict, LOGGER, status_dict, task_dict_lock, Intervals, bot
+from swibots import Message
+from bot import config_dict, LOGGER, status_dict, task_dict_lock, Intervals, bot, user
 from bot.helper.ext_utils.bot_utils import setInterval
 from bot.helper.ext_utils.status_utils import get_readable_message
 
 
-async def sendMessage(message, text, buttons=None):
+async def sendMessage(message: Message, text, buttons=None):
     try:
         return await message.reply_text(text, inline_markup=buttons)
     except Exception as e:
@@ -14,7 +15,7 @@ async def sendMessage(message, text, buttons=None):
         return str(e)
 
 
-async def editMessage(message, text, buttons=None):
+async def editMessage(message: Message, text, buttons=None):
     try:
         return await message.edit_text(text, inline_markup=buttons)
     except Exception as e:
@@ -39,7 +40,8 @@ async def sendRss(text):
         receiver_id = int(RC)
         commmunity_id, group_id = None, None
     try:
-        return await bot.send_message(
+        client = user or bot
+        return await client.send_message(
             text, community_id=commmunity_id, group_id=group_id, user_id=receiver_id
         )
     except Exception as e:
