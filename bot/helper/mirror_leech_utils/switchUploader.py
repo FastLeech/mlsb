@@ -214,8 +214,8 @@ class SwUploader:
             progress=self._upload_progress,
             part_size=50 * 1024 * 1024,
             task_count=10,
-            media_type=7 if self._listener.asDoc else None,
-        )
+            media_type=2 if ospath.splitext(file)[1] == ".mkv" else 7 if self._listener.asDoc else None,
+             )
         buttons = ButtonMaker()
         buttons.ubutton("Direct Download Link", self._sent_msg.media_link)
         button = buttons.build_menu()
